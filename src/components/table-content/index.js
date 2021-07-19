@@ -1,12 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {Link} from 'react-router-dom';
+import {useSelector, useDispatch} from 'react-redux';
+import {DELETE_DATA} from '../../redux/constants';
+import {actions} from '@c-redux';
 import './styles.scss';
 
 export default function TableContent(){
+  const listData = useSelector(state => state.listData);
+  const loading = useSelector(state => state.loading);
+  const dispatch = useDispatch();
+
+  // useEffect(() => {
+  //   dispatch(actions.getContact())
+  // },[]);
+
   return (
     <>
       <h1 className="mb-4 mt-4">Table Content</h1>
       <div className="content row">
+        {loading && <p className="text-success">Loading data...</p>}
         <table className="table table-striped">
           <thead>
             <tr>
@@ -18,18 +30,23 @@ export default function TableContent(){
             </tr>
           </thead>
           <tbody>
-            {Array.from(Array(10)).map((i,idx) => (
-              <tr key={idx}>
+            {listData.map((item,idx) => (
+              <tr key={item.id}>
                 <th className="column" scope="row">{idx + 1}</th>
-                <td >Mark</td>
-                <td >Otto</td>
-                <td className="column">10</td>
+                <td>{item.firstName}</td>
+                <td>{item.lastName}</td>
+                <td className="column">{item.age}</td>
                 <td className="action">
                   <span>
-                    <Link to={`/edit/${idx + 1}`}>
-                      <button className="btn btn-primary">Edit</button>
+                    <Link to={`/edit/${item.id}`}>
+                      <button disabled={loading} className="btn btn-primary">Edit</button>
                     </Link>
-                    <button className="btn btn-danger mx-3">Delete</button>
+                    <button loading={loading} onClick={() => {
+                      dispatch({
+                        type: DELETE_DATA,
+                        payload: item.id
+                      });
+                    }} className="btn btn-danger mx-3">Delete</button>
                   </span>
                 </td>
               </tr>
