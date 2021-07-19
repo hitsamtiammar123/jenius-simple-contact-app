@@ -5,8 +5,6 @@ import {actions, CONST} from '@c-redux';
 import {usePrevious} from '@c/hooks';
 import {TableContent, FormContent} from './components/index';
 
-const {ADD_DATA_SUCCESS} = CONST;
-
 function App() {
   const dispatch = useDispatch();
   const action = useSelector(state => state.action);
@@ -26,6 +24,18 @@ function App() {
         case CONST.DELETE_DATA_SUCCESS:
         case CONST.UPDATE_DATA_SUCCESS:
           dispatch(actions.getContact());
+        break;
+        case CONST.ADD_DATA_FAILED:
+          alert('There was an error when create new data');
+        break;
+        case CONST.SET_DATA_FAILED:
+          alert('There was an error when fetching data');
+        break;
+        case CONST.UPDATE_DATA_FAILED:
+          alert('There was an error when update data');
+        break;
+        case CONST.DELETE_DATA_FAILED:
+          alert('There was an error when delete data');
         break;
         default:
       }

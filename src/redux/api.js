@@ -2,10 +2,10 @@ import axios from 'axios';
 
 const baseURL = process.env.NODE_ENV === 'development' ? 
   'http://localhost:3001/' : 
-  'https://simple-contact-crud.herokuapp.com/'
+  'https://obscure-inlet-92601.herokuapp.com/'
 
 const instance = axios.create({
-  baseURL,
+  baseURL:'https://obscure-inlet-92601.herokuapp.com/' ,
   headers: {
     "access-control-expose-headers": "WWW-Authenticate,Server-Authorization",
     "content-type": "application/json; charset=utf-8",

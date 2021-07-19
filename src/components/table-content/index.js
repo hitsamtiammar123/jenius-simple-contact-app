@@ -1,7 +1,6 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import {useSelector, useDispatch} from 'react-redux';
-import {DELETE_DATA} from '../../redux/constants';
 import {actions} from '@c-redux';
 import './styles.scss';
 
@@ -41,11 +40,8 @@ export default function TableContent(){
                     <Link to={`/edit/${item.id}`}>
                       <button disabled={loading} className="btn btn-primary">Edit</button>
                     </Link>
-                    <button loading={loading} onClick={() => {
-                      dispatch({
-                        type: DELETE_DATA,
-                        payload: item.id
-                      });
+                    <button disabled={loading} onClick={() => {
+                      dispatch(actions.deleteContact(item.id));
                     }} className="btn btn-danger mx-3">Delete</button>
                   </span>
                 </td>

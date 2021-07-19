@@ -5,8 +5,6 @@ import {CONST, actions} from  '@c-redux';
 import {usePrevious} from '@c/hooks';
 import './styles.scss';
 
-const {ADD_DATA, UPDATE_DATA} = CONST;
-
 export default function FormContent(){
   const params = useParams();
   const listData = useSelector(state => state.listData);
@@ -34,10 +32,18 @@ export default function FormContent(){
   function validate(){
     let countError = 0;
     let listErrors = {...errors};
+    const checkDecimalAndWhitespace = /[\s\W]+/;
     if(data.firstName === ''){
       listErrors = {
         ...listErrors,
         firstName: 'First Name must be filled'
+      };
+      countError++;
+    }
+    else if(checkDecimalAndWhitespace.test(data.firstName)){
+      listErrors = {
+        ...listErrors,
+        firstName: 'First Name must only contain alphanumeric'
       };
       countError++;
     }
@@ -55,6 +61,13 @@ export default function FormContent(){
       };
       countError++;
     }
+    else if(checkDecimalAndWhitespace.test(data.lastName)){
+      listErrors = {
+        ...listErrors,
+        lastName: 'Last Name must only contain alphanumeric'
+      };
+      countError++;
+    }
     else{
       listErrors = {
         ...listErrors,
@@ -66,6 +79,13 @@ export default function FormContent(){
       listErrors = {
         ...listErrors,
         age: 'Age must not be zero'
+      };
+      countError++;
+    }
+    else if(data.age > 100){
+      listErrors = {
+        ...listErrors,
+        age: 'Age must not be larger than 100'
       };
       countError++;
     }
@@ -158,17 +178,17 @@ export default function FormContent(){
         <div className="form-group mt-4">
           <label htmlFor="firstName" className="mb-3">First Name</label>
           <input type="text" disabled={loading} onChange={(e) => setValue('firstName',e.target.value)} className="form-control" value={data.firstName} id="firstName" aria-describedby="firstName" placeholder="Enter First Name"/>
-          <small id="emailHelp" className="form-text text-danger">{errors.firstName}</small>
+          <small className="form-text text-danger">{errors.firstName}</small>
         </div>
         <div className="form-group mt-4">
           <label htmlFor="lastName" className="mb-3">Last Name</label>
           <input type="text" disabled={loading} onChange={(e) => setValue('lastName',e.target.value)} className="form-control" value={data.lastName} id="lastName" placeholder="Enter Last Name"/>
-          <small id="emailHelp" className="form-text text-danger">{errors.lastName}</small>
+          <small className="form-text text-danger">{errors.lastName}</small>
         </div>
         <div className="form-group mt-4">
           <label htmlFor="age" className="mb-3">Age</label>
-          <input type="number" disabled={loading} onChange={(e) => setValue('age',Number(e.target.value))} min="1" className="form-control" value={data.age} id="age" placeholder="Enter Age"/>
-          <small id="emailHelp" className="form-text text-danger">{errors.age}</small>
+          <input type="number" disabled={loading} onChange={(e) => setValue('age',Number(e.target.value))} min="1" max="100" className="form-control" value={data.age} id="age" placeholder="Enter Age"/>
+          <small className="form-text text-danger">{errors.age}</small>
         </div>
         <button onClick={onSubmit} disabled={loading} className="btn btn-success mt-4">Submit</button>
       </div>
