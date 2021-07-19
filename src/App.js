@@ -1,6 +1,5 @@
 import {BrowserRouter, Switch, Route, Link} from 'react-router-dom';
 import {TableContent, FormContent} from './components/index';
-import './App.css';
 
 function App() {
   return (
@@ -12,16 +11,11 @@ function App() {
         </nav>
         <div className="container">
             <Switch>
-              <Route path="/edit/:id">
+              <Route path={["/create","/edit/:id"]}>
                 <FormContent/>
               </Route>
               <Route path="/">
                 <TableContent/>
-                <Switch>
-                  <Route path="/create">
-                    <FormContent/>
-                  </Route>
-                </Switch>
               </Route>
             </Switch>
         </div>
