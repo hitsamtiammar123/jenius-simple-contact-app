@@ -5,7 +5,7 @@ const baseURL = process.env.NODE_ENV === 'development' ?
   'https://obscure-inlet-92601.herokuapp.com/'
 
 const instance = axios.create({
-  baseURL:'https://obscure-inlet-92601.herokuapp.com/' ,
+  baseURL ,
   headers: {
     "access-control-expose-headers": "WWW-Authenticate,Server-Authorization",
     "content-type": "application/json; charset=utf-8",
